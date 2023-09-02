@@ -1,0 +1,2 @@
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/local/git/bin:/usr/local/go/bin:$PATH";
+export PATH="$HOME/bin:$PATH";
