@@ -9,9 +9,6 @@
 	# Show the diff between the latest commit and the current state
 	d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
 
-	# `git di $number` shows the diff between the state `$number` revisions ago and the current state
-	di = !"d() { git diff --patch-with-stat HEAD~$1; }; git diff-index --quiet HEAD -- || clear; d"
-
 	# Pull in remote changes for the current repository and all its submodules
 	p = !"git pull; git submodule foreach git pull origin main"
 
@@ -29,58 +26,6 @@
 	branches = branch -a
 	remotes = remote -v
 
-	# Amend the currently staged files to the latest commit
-	amend = commit --amend --reuse-message=HEAD
-
-	# Credit an author on the latest commit
-	credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
-
-	# Interactive rebase with the given number of latest commits
-	reb = "!r() { git rebase -i HEAD~$1; }; r"
-
-	# Find branches containing commit
-	fb = "!f() { git branch -a --contains $1; }; f"
-
-	# Find tags containing commit
-	ft = "!f() { git describe --always --contains $1; }; f"
-
-	# Find commits by source code
-	fc = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short -S$1; }; f"
-
-	# Find commits by commit message
-	fm = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
-
-	# Remove branches that have already been merged with main
-	# a.k.a. ‘delete merged’
-	dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
-
-	# List contributors with number of commits
-	contributors = shortlog --summary --numbered
-
-	# Merge GitHub pull request on top of the `main` branch
-	mpr = "!f() { \
-		if [ $(printf \"%s\" \"$1\" | grep '^[0-9]\\+$' > /dev/null; printf $?) -eq 0 ]; then \
-			git fetch origin refs/pull/$1/head:pr/$1 && \
-			git rebase main pr/$1 && \
-			git checkout main && \
-			git merge pr/$1 && \
-			git branch -D pr/$1 && \
-			git commit --amend -m \"$(git log -1 --pretty=%B)\n\nCloses #$1.\"; \
-		fi \
-	}; f"
-
-	# Push all local branches to remote, creating them if necessary with the same name as the local branch
-	save = push origin '*:*'
-
-	# Check out all remote branches locally, then update them to remote
-	#sync = for remote in `git branch -r | grep -v '\->'`; do output=$(git branch | grep "${remote#origin/}"); if [ -z "$output" ]; then git branch --track ${remote#origin/} $remote; fi; done && git pull --all
-
-	# Create a branch from main and set it to track origin
-	create = "!f() { git checkout -b \"issue/$1\" main 2> /dev/null && git push -u origin \"issue/$1\"; }; f"
-
-	# Remove a branch 
-	delete = "!f() { git branch -d \"issue/$1\" && git push origin \":issue/$1\"; }; f"
-
 [apply]
 
 	# Detect whitespace errors when applying a patch
@@ -90,10 +35,6 @@
 	gpgsign = true
 
 [core]
-
-	# Use custom `.gitignore` and `.gitattributes`
-	excludesfile = ~/.gitignore
-	attributesfile = ~/.gitattributes
 
 	# Treat spaces before tabs and all kinds of trailing whitespace as an error
 	# [default] trailing-space: looks for spaces at the end of a line
@@ -183,8 +124,7 @@
 
 [user]
 	name = Brian Haan
-	email = brianchaan@gmail.com
-	signingkey = 23C9821D
+	email = brian@brianhaan.com
 
 [credential]
 	helper = osxkeychain

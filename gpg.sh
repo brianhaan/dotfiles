@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # Run this file or go line-by-line. This only works if you don't already have a gpg key set.
 
 # Generate key. Use same name and email as in .gitconfig.
@@ -16,12 +16,3 @@ git config --global user.signingkey $KEY
 mkdir -p ~/.gnupg
 echo "pinentry-program /usr/local/bin/pinentry-mac" > ~/.gnupg/gpg-agent.conf
 killall gpg-agent
-
-# If you have more than one git profile, uncomment and add this to .gitconfig:
-# [includeIf "gitdir:~/path/to/other/profiles/projects/"]
-#   path = ~/.gitconfig-profilename
-
-# Add these contents to .gitconfig-profilename:
-# [user]
-# 	email = **PROFILE EMAIL**
-# 	signingkey = **SIGNING KEY**

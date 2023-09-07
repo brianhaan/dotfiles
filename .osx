@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # Ask for the administrator password upfront
 sudo -v
@@ -13,16 +13,8 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 # Set sidebar icon size to medium
 defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 2
 
-# Show scrollbars
+# Show/hide scrollbars automatically
 defaults write NSGlobalDomain AppleShowScrollBars -string "Automatic"
-
-# Expand save panel by default
-defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
-defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
-
-# Expand print panel by default
-defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
-defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true
 
 # Disable smart quotes as they’re annoying when typing code
 defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -int 0
@@ -38,7 +30,7 @@ defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 # Disable auto-correct
 defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -int 0
 
-# Save screenshots to the desktop
+# Save screenshots to the screenshots directory
 defaults write com.apple.screencapture location -string "${HOME}/Documents/screenshots"
 
 # Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)
@@ -107,7 +99,7 @@ com.apple.driver.AppleBluetoothMultitouch.mouse.plist -c "Set :DesktopViewSettin
 /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist
 
 # Lengthen columns to make it easier to read
-/usr/libexec/PlistBuddy -c "Set :StandardViewOptions:ColumnViewOptions:ColumnWidth 350" ~/Library/Preferences/com.apple.finder.plist
+/usr/libexec/PlistBuddy -c "Set :StandardViewOptions:ColumnViewOptions:ColumnWidth 400" ~/Library/Preferences/com.apple.finder.plist
 
 # Use list view in all Finder windows by default
 # Four-letter codes for the other view modes: `icnv`, `clmv`, `Flwv`
@@ -121,6 +113,9 @@ defaults write com.apple.finder EmptyTrashSecurely -bool true
 
 # Enable AirDrop over Ethernet and on unsupported Macs running Lion
 defaults write com.apple.NetworkBrowser BrowseAllInterfaces -bool true
+
+## Remove Finder Tags
+defaults write com.apple.finder FavoriteTagNames -array ''
 
 ###############################################################################
 # Dock                                                                        #
@@ -137,24 +132,6 @@ defaults write com.apple.dock autohide-delay -float 0.001
 
 # Don't show recents
 defaults write com.apple.dock show-recents -bool false
-
-# Hot corners
-# Possible values:
-#  0: no-op
-#  2: Mission Control
-#  3: Show application windows
-#  4: Desktop
-#  5: Start screen saver
-#  6: Disable screen saver
-#  7: Dashboard
-# 10: Put display to sleep
-# 11: Launchpad
-# 12: Notification Center
-# 13: Lock Screen
-
-# Bottom left screen corner → Desktop
-#defaults write com.apple.dock wvous-bl-corner -int 4
-#defaults write com.apple.dock wvous-bl-modifier -int 0
 
 ###############################################################################
 # Safari                                                                      #
@@ -180,16 +157,6 @@ defaults write com.apple.mail DraftsViewerAttributes -dict-add "SortOrder" -stri
 defaults write com.apple.mail SpellCheckingBehavior -string "NoSpellCheckingEnabled"
 
 ###############################################################################
-# iTerm                                                                       #
-###############################################################################
-
-# Don’t display the annoying prompt when quitting iTerm
-defaults write com.googlecode.iterm2 PromptOnQuit -bool false
-
-# Set preferences for iTerm`
-defaults write com.googlecode.iterm2 PrefsCustomFolder -string "${HOME}/Themes/"
-
-###############################################################################
 # Activity Monitor                                                            #
 ###############################################################################
 
@@ -205,109 +172,3 @@ defaults write com.apple.ActivityMonitor ShowCategory -int 0
 # Sort Activity Monitor results by CPU usage
 defaults write com.apple.ActivityMonitor SortColumn -string "CPUUsage"
 defaults write com.apple.ActivityMonitor SortDirection -int 0
-
-###############################################################################
-# Messages                                                                    #
-###############################################################################
-
-# Enable automatic emoji substitution (i.e. use plain text smileys)
-defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "automaticEmojiSubstitutionEnablediMessage" -bool true
-
-# Disable smart quotes as it’s annoying for messages that contain code
-defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "automaticQuoteSubstitutionEnabled" -bool false
-
-# Enable continuous spell checking
-defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "continuousSpellCheckingEnabled" -bool true
-
-
-## Set Computer Name
-scutil --set HostName skywalker
-scutil --set LocalHostName skywalker
-scutil --set ComputerName skywalker
-
-
-## Mouse Options - Enable all options and highest mouse sensitivity
-defaults write com.apple.driver.AppleBluetoothMultitouch.mouse MouseButtonDivision -int 55
-defaults write com.apple.driver.AppleBluetoothMultitouch.mouse MouseButtonMode -string TwoButton
-defaults write com.apple.driver.AppleBluetoothMultitouch.mouse MouseHorizontalScroll -int 1
-defaults write com.apple.driver.AppleBluetoothMultitouch.mouse MouseMomentumScroll -int 1
-defaults write com.apple.driver.AppleBluetoothMultitouch.mouse MouseOneFingerDoubleTapGesture -int 1
-defaults write com.apple.driver.AppleBluetoothMultitouch.mouse MouseTwoFingerDoubleTapGesture -int 3
-defaults write com.apple.driver.AppleBluetoothMultitouch.mouse MouseTwoFingerHorizSwipeGesture -int 2
-defaults write com.apple.driver.AppleBluetoothMultitouch.mouse MouseVerticalScroll -int 1
-defaults write com.apple.driver.AppleBluetoothMultitouch.mouse UserPreferences -int 1
-
-defaults write com.apple.AppleMultitouchMouse MouseButtonDivision -int 55
-defaults write com.apple.AppleMultitouchMouse MouseButtonMode -string TwoButton
-defaults write com.apple.AppleMultitouchMouse MouseHorizontalScroll -int 1
-defaults write com.apple.AppleMultitouchMouse MouseMomentumScroll -int 1
-defaults write com.apple.AppleMultitouchMouse MouseOneFingerDoubleTapGesture -int 1
-defaults write com.apple.AppleMultitouchMouse MouseTwoFingerDoubleTapGesture -int 3
-defaults write com.apple.AppleMultitouchMouse MouseTwoFingerHorizSwipeGesture -int 2
-defaults write com.apple.AppleMultitouchMouse MouseVerticalScroll -int 1
-defaults write com.apple.AppleMultitouchMouse UserPreferences -int 1
-
-defaults write -g com.apple.mouse.scaling -float 3
-defaults write -g AppleEnableMouseSwipeNavigateWithScrolls -int 1
-
-
-## Keyboard Options
-defaults write -g NSAutomaticCapitalizationEnabled -int 0
-defaults write -g NSAutomaticPeriodSubstitutionEnabled -int 0
-defaults write -g NSUserDictionaryReplacementItems -array ''
-
-
-## Show Bluetooth in Menu Bar
-defaults write com.apple.controlcenter "NSStatusItem Visible Bluetooth" -int 1
-defaults write  ~/Library/Preferences/ByHost/ com.apple.controlcenter.plist Bluetooth -int 18
-
-
-## Spotlight
-defaults delete com.apple.Spotlight orderedItems
-defaults write com.apple.Spotlight orderedItems -array-add '{enabled = 1;name = APPLICATIONS;}'
-defaults write com.apple.Spotlight orderedItems -array-add '{enabled = 0;name = "MENU_SPOTLIGHT_SUGGESTIONS";}'
-defaults write com.apple.Spotlight orderedItems -array-add '{enabled = 1;name = "MENU_CONVERSION";}'
-defaults write com.apple.Spotlight orderedItems -array-add '{enabled = 1;name = "MENU_EXPRESSION";}'
-defaults write com.apple.Spotlight orderedItems -array-add '{enabled = 1;name = "MENU_DEFINITION";}'
-defaults write com.apple.Spotlight orderedItems -array-add '{enabled = 1;name = "SYSTEM_PREFS";}'
-defaults write com.apple.Spotlight orderedItems -array-add '{enabled = 1;name = DOCUMENTS;}'
-defaults write com.apple.Spotlight orderedItems -array-add '{enabled = 1;name = DIRECTORIES;}'
-defaults write com.apple.Spotlight orderedItems -array-add '{enabled = 0;name = PRESENTATIONS;}'
-defaults write com.apple.Spotlight orderedItems -array-add '{enabled = 0;name = SPREADSHEETS;}'
-defaults write com.apple.Spotlight orderedItems -array-add '{enabled = 0;name = PDF;}'
-defaults write com.apple.Spotlight orderedItems -array-add '{enabled = 0;name = MESSAGES;}'
-defaults write com.apple.Spotlight orderedItems -array-add '{enabled = 1;name = CONTACT;}'
-defaults write com.apple.Spotlight orderedItems -array-add '{enabled = 1;name = "EVENT_TODO";}'
-defaults write com.apple.Spotlight orderedItems -array-add '{enabled = 0;name = IMAGES;}'
-defaults write com.apple.Spotlight orderedItems -array-add '{enabled = 0;name = BOOKMARKS;}'
-defaults write com.apple.Spotlight orderedItems -array-add '{enabled = 0;name = MUSIC;}'
-defaults write com.apple.Spotlight orderedItems -array-add '{enabled = 0;name = MOVIES;}'
-defaults write com.apple.Spotlight orderedItems -array-add '{enabled = 0;name = FONTS;}'
-defaults write com.apple.Spotlight orderedItems -array-add '{enabled = 1;name = "MENU_OTHER";}'
-
-
-## Screensaver - disable
-defaults -currentHost write com.apple.screensaver idleTime -int 0
-
-
-## Dock - update each line to point to the Application
-defaults delete com.apple.dock persistent-apps
-defaults write com.apple.dock persistent-apps -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/System/Applications/Utilities/Activity Monitor.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
-defaults write com.apple.dock persistent-apps -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/iTerm.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
-defaults write com.apple.dock persistent-apps -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Google Chrome.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
-defaults write com.apple.dock persistent-apps -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Notion.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
-defaults write com.apple.dock persistent-apps -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Slack.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
-defaults write com.apple.dock persistent-apps -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Discord.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
-defaults write com.apple.dock persistent-apps -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/System/Applications/Messages.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
-defaults write com.apple.dock persistent-apps -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/System/Applications/Mail.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
-defaults write com.apple.dock persistent-apps -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/System/Applications/Calendar.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
-defaults write com.apple.dock persistent-apps -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Spotify.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
-defaults write com.apple.dock persistent-apps -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Visual Studio Code.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
-defaults write com.apple.dock persistent-apps -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/PhpStorm.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
-defaults write com.apple.dock persistent-apps -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Postman.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
-defaults write com.apple.dock persistent-apps -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Applications/Adobe XD/Adobe XD.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
-killall Dock
-
-
-## Finder Tags
-defaults write com.apple.finder FavoriteTagNames -array ''

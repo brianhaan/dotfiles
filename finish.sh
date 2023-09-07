@@ -1,7 +1,7 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-# Install Node
-source $PWD/npm.sh
+# Copy Credentials
+#source $PWD/credentials.sh
 
 # Source OSX Preferences
 source $PWD/.osx
