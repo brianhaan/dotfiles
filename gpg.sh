@@ -8,11 +8,11 @@ gpg --gen-key
 KEY=$(gpg -K --keyid-format SHORT | grep -Eo -m 1 "sec\s*\w*\/(\w{8})" | xargs | tail -c 9)
 
 # Add to git config.
-git config --global gpg.program /usr/local/bin/gpg
+git config --global gpg.program /opt/homebrew/bin/gpg
 git config --global commit.gpgsign true
 git config --global user.signingkey $KEY
 
 # Add Config file.
 mkdir -p ~/.gnupg
-echo "pinentry-program /usr/local/bin/pinentry-mac" > ~/.gnupg/gpg-agent.conf
+echo "pinentry-program /opt/homebrew/bin/pinentry-mac" > ~/.gnupg/gpg-agent.conf
 killall gpg-agent
